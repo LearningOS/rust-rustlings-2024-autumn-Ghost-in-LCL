@@ -3,21 +3,55 @@
 // Execute `rustlings hint strings3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 fn trim_me(input: &str) -> String {
     // TODO: Remove whitespace from both ends of a string!
-    ???
+    let mut l = 0;
+    let mut r = input.len();
+    while l < r {
+        if &input[l..(l + 1)] != " " {
+            break;
+        }
+        l += 1;
+    }
+    while r > l {
+        if &input[(r - 1)..r] != " " {
+            break;
+        }
+        r -= 1;
+    }
+    let mut s = String::new();
+    s += &input[l..r];
+    return s;
 }
 
 fn compose_me(input: &str) -> String {
     // TODO: Add " world!" to the string! There's multiple ways to do this!
-    ???
+    let mut s = String::from(input);
+    s += " world!";
+    return s;
 }
 
 fn replace_me(input: &str) -> String {
     // TODO: Replace "cars" in the string with "balloons"!
-    ???
+    let mut s = String::new();
+    let mut l = 0;
+    let mut i = 0;
+    while i + 3 < input.len() {
+        if &input[i..(i + 4)] == "cars" {
+            if (i > l) {
+                s += &input[l..i];
+            }
+            s += "balloons";
+            i += 4;
+            l = i;
+        } else {
+            i += 1;
+        }
+    }
+    if l < input.len() {
+        s += &input[l..input.len()];
+    }
+    return s;
 }
 
 #[cfg(test)]
@@ -39,7 +73,13 @@ mod tests {
 
     #[test]
     fn replace_a_string() {
-        assert_eq!(replace_me("I think cars are cool"), "I think balloons are cool");
-        assert_eq!(replace_me("I love to look at cars"), "I love to look at balloons");
+        assert_eq!(
+            replace_me("I think cars are cool"),
+            "I think balloons are cool"
+        );
+        assert_eq!(
+            replace_me("I love to look at cars"),
+            "I love to look at balloons"
+        );
     }
 }
