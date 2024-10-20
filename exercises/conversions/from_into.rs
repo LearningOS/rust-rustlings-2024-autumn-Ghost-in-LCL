@@ -7,6 +7,8 @@
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
 
+use std::collections::VecDeque;
+
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -40,10 +42,24 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
-
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            return Person::default();
+        }
+        let v = s.split(',').collect::<Vec<&str>>();
+        if v.len() != 2 {
+            return Person::default();
+        }
+        let name_ = v.get(0).unwrap();
+        let age_ = v.get(1).unwrap().parse::<usize>();
+        if name_.is_empty() || age_.is_err() {
+            return Person::default();
+        }
+        Person {
+            name: v.get(0).unwrap().to_string(),
+            age: v.get(1).unwrap().to_string().parse().unwrap(),
+        }
     }
 }
 
